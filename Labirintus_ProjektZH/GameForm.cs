@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -15,8 +16,8 @@ namespace Labirintus_ProjektZH
         Steve player = new Steve();
         List<BrickBlock> bricks = new List<BrickBlock>();
 
-        int elteltido = new int();
         int lepesszam = new int();
+        Stopwatch stopwatch = new Stopwatch();
         public GameForm()
         {
             InitializeComponent();
@@ -73,6 +74,7 @@ namespace Labirintus_ProjektZH
                         }
                         sorokszama++;
                     }
+                    stopwatch.Start();
                 }
                 catch (Exception ex)
                 {
@@ -86,20 +88,23 @@ namespace Labirintus_ProjektZH
             if (e.KeyCode == Keys.Escape)
             {
                 timer1.Enabled = false;
+                stopwatch.Stop();
                 if (MessageBox.Show("Kilépsz?", "Pause menü", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     Close();
                 }
                 timer1.Enabled = true;
+                stopwatch.Start();
             }
 
             int xloc = player.Left;
             int yloc = player.Top;
+            bool menj = false;
 
-            if (e.KeyCode == Keys.Down) { yloc += 32; };
-            if (e.KeyCode == Keys.Up && yloc != 0) { yloc -= 32; };
-            if (e.KeyCode == Keys.Right) { xloc += 32; };
-            if (e.KeyCode == Keys.Left && xloc !=0) { xloc -= 32; };
+            if (e.KeyCode == Keys.Down) { yloc += 32; menj = true; };
+            if (e.KeyCode == Keys.Up && yloc != 0) { yloc -= 32; menj = true; };
+            if (e.KeyCode == Keys.Right) { xloc += 32; menj = true; };
+            if (e.KeyCode == Keys.Left && xloc !=0) { xloc -= 32; menj = true; };
 
             foreach (Control c in Controls)
             {
@@ -113,7 +118,7 @@ namespace Labirintus_ProjektZH
             }
             player.Left = xloc;
             player.Top = yloc;
-            lepesszam++;
+            if (menj == true) { lepesszam++; }
             lepesszamLabel.Text = "Lépésszám: " + lepesszam.ToString();
             
             foreach (Control vege in Controls)
@@ -122,6 +127,8 @@ namespace Labirintus_ProjektZH
                 {
                     if (vege.Top == yloc && vege.Left == xloc)
                     {
+                        timer1.Enabled = false;
+                        stopwatch.Stop();
                         MessageBox.Show("Pálya teljesítve!");
                         Close();
                     }
@@ -131,8 +138,10 @@ namespace Labirintus_ProjektZH
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            elteltido++;
-            elteltIdoLabel.Text = "Eltelt idő: "+elteltido.ToString();
+            TimeSpan timeSpan = stopwatch.Elapsed;
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}",
+            timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+            elteltIdoLabel.Text = "Eltelt idő: "+elapsedTime.ToString();
         }
     }
 }

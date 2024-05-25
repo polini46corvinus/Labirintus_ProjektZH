@@ -37,7 +37,7 @@
             // elteltIdoLabel
             // 
             elteltIdoLabel.AutoSize = true;
-            elteltIdoLabel.Location = new Point(65, 6);
+            elteltIdoLabel.Location = new Point(77, 9);
             elteltIdoLabel.Name = "elteltIdoLabel";
             elteltIdoLabel.Size = new Size(65, 15);
             elteltIdoLabel.TabIndex = 0;
@@ -46,7 +46,7 @@
             // lepesszamLabel
             // 
             lepesszamLabel.AutoSize = true;
-            lepesszamLabel.Location = new Point(154, 6);
+            lepesszamLabel.Location = new Point(201, 9);
             lepesszamLabel.Name = "lepesszamLabel";
             lepesszamLabel.Size = new Size(76, 15);
             lepesszamLabel.TabIndex = 1;
